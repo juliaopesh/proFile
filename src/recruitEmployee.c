@@ -59,6 +59,8 @@ void recruitEmployee (struct employee ** headLL)
 
     printf("Your computer-generated empId is %d\n", empId);
 
+    newEmp->empId = empId;
+
     // Add new employee node to end of linked list
     newEmp->nextEmployee = NULL;
     
