@@ -57,5 +57,4 @@ void fireOne (a3Emp ** headLL, int whichOne);
 
 int generateId (char *fname, char *lname, struct employee *head);
 
-void freeEmp(struct employee *emp);
 
