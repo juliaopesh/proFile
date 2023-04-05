@@ -1,18 +1,22 @@
 #include "../include/headerA3.h"
 
+//Allows user to manually enter employee data for a new employee, appended to end of linked list
 void recruitEmployee (struct employee ** headLL)
 {
-    char yn;
+    char yn = 'y';
     char tempfn[MAX_LENGTH], templn[MAX_LENGTH];
-    int count = 0;
-    int empId;
+    int empId = 0;
 
-    struct employee *newEmp = (struct employee*)malloc(sizeof(struct employee));
+    //Allocating memory for new employee
+    struct employee *newEmp = malloc(sizeof(struct employee));
+
     if (newEmp == NULL) 
     {
+        //check if null
         printf("Error: unable to allocate memory for new employee\n");
         return;
     }
+    //Take employee information (first name, last name)
     printf("Enter the first name of the employee: ");
     scanf("%s", tempfn);
     strcpy(newEmp->fname, tempfn);
@@ -22,58 +26,47 @@ void recruitEmployee (struct employee ** headLL)
     strcpy(newEmp->lname, templn);
 
     printf("\n");
-
-    printf("Enter name of dependent# 1: ");
-    newEmp->numDependents = 1;
-    newEmp->dependents = (char **) malloc(sizeof(char*));
-    newEmp->dependents[0] = (char *) malloc(MAX_LENGTH * sizeof(char));
-    scanf("%s", newEmp->dependents[0]);
-    printf("\n");
-
+    
     empId = generateId(newEmp->fname, newEmp->lname, *headLL);
-    newEmp->empId = empId;
 
-    do
+    //Set number of dependants to 0 initially
+    newEmp->numDependents = 0;
+
+    newEmp -> dependents = malloc(sizeof(char *));
+
+    while(yn == 'y')
     {
-        printf("Do you have any more dependants? ");
-        getchar();
-        scanf(" %c", &yn);
-        //yn = getc(stdin);
-        yn = tolower(yn);
-        if (yn == 'y')
-        {
-            newEmp->numDependents++;
-            newEmp->dependents = (char **) realloc(newEmp->dependents, newEmp->numDependents * sizeof(char *));
-            if (newEmp->dependents == NULL) 
-            {
-                printf("Error: unable to allocate memory for dependents\n");
-                for (int i = 0; i < newEmp->numDependents-1; i++)
-                {
-                    free(newEmp->dependents[i]);
-                }
-                free(newEmp->dependents);
-                free(newEmp);
-                return;
-            }
-            newEmp->dependents[newEmp->numDependents - 1] = (char *) malloc(MAX_LENGTH * sizeof(char));
-            count++;
-            printf("Enter the name of dependant #%d:",newEmp->numDependents);
-            scanf("%s", newEmp->dependents[count-1]);
-        }
+        //Reallocates memory for additional dependants   
+        newEmp->dependents = realloc(newEmp -> dependents, sizeof(char *) * (newEmp->numDependents + 1));
 
-        printf("\n");
+        //Allocate memory to store each dependant name
+        newEmp->dependents[newEmp->numDependents] = malloc(MAX_LENGTH * sizeof(char));
+
+        printf("Enter the name of dependant #%d:",(newEmp->numDependents+1));
+        scanf("%s", newEmp->dependents[newEmp->numDependents]);
+        
+        newEmp -> dependents[newEmp->numDependents][strlen(newEmp -> dependents[newEmp->numDependents])] = '\0';
+
+        newEmp -> dependents[newEmp->numDependents] = realloc(newEmp -> dependents[newEmp->numDependents], 
+        sizeof(char)*(strlen(newEmp -> dependents[newEmp->numDependents]) + 1));
+
+        printf("Do you have any more dependants? ");
+        scanf(" %c", &yn);
+        yn = tolower(yn);
+
+        (newEmp->numDependents)++;
     }
-    while(yn == 'y');
 
     printf("Your computer-generated empId is %d\n", empId);
 
     // Add new employee node to end of linked list
     newEmp->nextEmployee = NULL;
+    
     if (*headLL == NULL) 
     {
         *headLL = newEmp;
     } 
-    else 
+    else  //Traverse list to point to new node
     {
         struct employee *temp = *headLL;
         while (temp->nextEmployee != NULL) 
@@ -82,8 +75,6 @@ void recruitEmployee (struct employee ** headLL)
         }
         temp->nextEmployee = newEmp;
     }
-
+    //Print num dependants
     printf("You have %d dependants.\n", newEmp->numDependents);
-
-
 }
