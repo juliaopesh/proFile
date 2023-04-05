@@ -4,9 +4,9 @@
 #include <ctype.h>
 
 /*
- Student Name: Firstname Lastname
- Student ID: #######
- Due Date: Mon Day, Year
+ Student Name: Julia Opeshansky
+ Student ID: 1228267
+ Due Date: April 4 2023
  Course: CIS*2500
  I have exclusive control over this submission via my password.
  By including this header comment, I certify that:
