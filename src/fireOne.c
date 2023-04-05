@@ -2,7 +2,7 @@
 
 void fireOne (a3Emp ** headLL, int whichOne)
 {
-
+    //Check if null
     if (*headLL == NULL) 
     {
         printf("The linked list is empty.\n");
@@ -10,8 +10,8 @@ void fireOne (a3Emp ** headLL, int whichOne)
     }
 
     //Nodes
-    a3Emp * current = *headLL;
-    a3Emp * prev = NULL;
+    a3Emp * current = *headLL; //head
+    a3Emp * prev = NULL; 
 
     int index = 1;
 
@@ -19,6 +19,12 @@ void fireOne (a3Emp ** headLL, int whichOne)
 
     if (whichOne == 1)
     {
+        for (int i = 0; i < current->numDependents; i++)
+        {
+            free(current->dependents[i]);
+        }
+        // Free the dependents array
+        free(current->dependents);
         *headLL = current ->nextEmployee;
     }
     else
@@ -30,10 +36,20 @@ void fireOne (a3Emp ** headLL, int whichOne)
             current = current -> nextEmployee;
             index++;
         }
+        for (int i = 0; i < current->numDependents; i++)
+        {
+            free(current->dependents[i]);
+        }
+        // Free the dependents array
+        free(current->dependents);
+
+        //point to next so that we can continue (not lose head)
         prev->nextEmployee = current->nextEmployee;
     }
     
     printf("Employee [Id: %d] fired.\n", current->empId);
+
+    //Frees head
     free(current);
 }
 
