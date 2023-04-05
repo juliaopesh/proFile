@@ -2,8 +2,15 @@
 
 void printAll (struct employee * headLL)
 {
-    int i;
+    int i = 0;
     struct employee *current = headLL;
+
+    if (headLL == NULL) 
+    {
+        printf("The linked list is empty.\n");
+        return;
+    }
+    
     while (current != NULL)
     { 
         i++;
