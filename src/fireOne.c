@@ -14,6 +14,14 @@ void fireOne (a3Emp ** headLL, int whichOne)
     a3Emp * prev = NULL; 
 
     int index = 1;
+    int numEmployees = countEmployees(*headLL);
+
+    // Check if the index is valid
+    if (whichOne < 1 || whichOne > numEmployees) 
+    {
+        printf("Invalid index: %d. There are only %d employees in the linked list.\n", whichOne, numEmployees);
+        return;
+    }
 
     //Check if the employee to be fired is at the head of the list
 
@@ -36,6 +44,7 @@ void fireOne (a3Emp ** headLL, int whichOne)
             current = current -> nextEmployee;
             index++;
         }
+
         for (int i = 0; i < current->numDependents; i++)
         {
             free(current->dependents[i]);
@@ -52,4 +61,3 @@ void fireOne (a3Emp ** headLL, int whichOne)
     //Frees head
     free(current);
 }
-
