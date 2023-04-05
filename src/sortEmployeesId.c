@@ -2,15 +2,18 @@
 
 void sortEmployeesId (struct employee * headLL)
 {
-    struct employee * current = headLL;
-    int count = 0;
-
+    //check if empty
     if (headLL == NULL) 
     {
         printf("The linked list is empty.\n");
         return;
     }
+    
+    //pointer to head of list
+    struct employee * current = headLL;
+    int count = 0;
 
+    //iterates through list to count number of employees
     while (current != NULL)
     {
         count ++;
@@ -18,6 +21,7 @@ void sortEmployeesId (struct employee * headLL)
 
     }
 
+    //creating pointer array, essentially copying passed list to new list
     struct employee* employeeArr[count];
     current = headLL;
 
@@ -27,6 +31,7 @@ void sortEmployeesId (struct employee * headLL)
         current = current->nextEmployee;
     }
 
+    //bubble sort based off empId
     for (int i = 0; i < count - 1; i++) 
     {
         for (int j = 0; j < count - i - 1; j++) 
@@ -40,7 +45,7 @@ void sortEmployeesId (struct employee * headLL)
         }
     }
 
-
+    //iterates and prints sorted employee array
     for (int i = 0; i < count; i++)
     {
         current = employeeArr[i];
