@@ -7,10 +7,18 @@ void fireAll (a3Emp ** headLL)
         printf("The linked list is empty.\n");
         return;
     }
-    
+    //Initialize node current, points to head
     a3Emp *current = *headLL;
     while (current != NULL) 
     {
+        // Free each dependent for the current employee
+        for (int i = 0; i < current->numDependents; i++)
+        {
+            free(current->dependents[i]);
+        }
+        // Free the dependents array
+        free(current->dependents);
+        
         //point to next node so that we can access the rest of the list
         a3Emp *next = current->nextEmployee;
         free(current); //free each node
